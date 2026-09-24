@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-09-23T12:51:53.969Z",
+  "totalAudited": 1783,
+  "closeMatchesCount": 0,
+  "averageTokenJaccard": 0.021,
+  "maxTokenJaccard": 0.061,
+  "phraseOverlap6PlusWords": 0,
+  "flaggedItems": []
+}

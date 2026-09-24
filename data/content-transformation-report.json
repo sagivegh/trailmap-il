@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-09-23T13:16:32.153Z",
+  "totalTrails": 1783,
+  "transformedTrails": 1783,
+  "trailsWithStructuredFacts": 1783,
+  "trailsWithOriginalSummaries": 1783,
+  "trailsWithInsufficientInfo": 0,
+  "suspiciousSimilarityMatches": 0,
+  "descriptionsRegenerated": 0,
+  "flaggedTrails": [],
+  "coordinateCheck": {
+    "total": 1783,
+    "verified": 591,
+    "probable": 298,
+    "missing": 894,
+    "mapped": 889,
+    "verifiedMatch": true,
+    "probableMatch": true
+  }
+}

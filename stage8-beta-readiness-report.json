@@ -1,0 +1,143 @@
+{
+  "generatedAt": "2026-09-23T20:50:00.000Z",
+  "stage": "Stage 8: TrailMap Beta Readiness Fixes",
+  "status": "COMPLETED",
+  
+  "executiveSummary": {
+    "totalFixesRequired": 4,
+    "totalFixesCompleted": 4,
+    "allTestsPassing": true,
+    "productionBuildSuccess": true,
+    "sourceFilesPreserved": true,
+    "coordinatesPreserved": true,
+    "zeroApiKeys": true
+  },
+
+  "fixes": [
+    {
+      "id": "FIX-01",
+      "name": "Difficulty Filter Alignment",
+      "targetFiles": [
+        "src/features/filters/FilterBar.tsx",
+        "src/features/search/search-utils.ts"
+      ],
+      "problem": "FilterBar displayed 'קשה / מאתגרת' with value='קשה', while dataset stores challenging trails as difficulty='מאתגרת'. Selecting the filter returned 0 trails even though 60 challenging trails exist in the dataset.",
+      "solution": "Updated FilterBar option value to 'מאתגרת' while retaining user label 'קשה / מאתגרת'. Updated search-utils.ts to normalize difficulty matching so both 'מאתגרת' and 'קשה' match challenging trails robustly.",
+      "verification": {
+        "challengingTrailsMatched": 60,
+        "easyTrailsMatched": 1216,
+        "moderateTrailsMatched": 503,
+        "allTrailsUnfiltered": 1783
+      }
+    },
+    {
+      "id": "FIX-02",
+      "name": "Route Type on Trail Cards",
+      "targetFiles": [
+        "src/features/trails/TrailCard.tsx"
+      ],
+      "problem": "Trail cards omitted route type (circular vs. out-and-back) in the quick metrics row, forcing users to click into details to learn whether a second car or staging is required.",
+      "solution": "Added route type badge to TrailCard quick metrics row alongside distance, duration, and difficulty. Circular trails display 'מעגלי' with RotateCcw icon; out-and-back trails display 'הלוך-חזור' (or 'קווי') with Repeat icon. When route type is unknown/null (204 trails), it is gracefully omitted without empty badges or fabricated values.",
+      "verification": {
+        "circularTrailsDisplayed": 475,
+        "outAndBackTrailsDisplayed": 1104,
+        "unknownOmittedWithoutFabrication": 204
+      }
+    },
+    {
+      "id": "FIX-03",
+      "name": "4x4 / Vehicle Access Warning on Cards & Modal",
+      "targetFiles": [
+        "src/features/trails/TrailCard.tsx",
+        "src/features/trails/TrailDetailModal.tsx"
+      ],
+      "problem": "27 trails require 4x4 vehicles, but cards displayed no warning. Users driving standard passenger cars could attempt remote trails. Trails with conditional staging buried vehicle notes in a lower tab.",
+      "solution": "Added prominent '4x4 בלבד' warning badge and card body pill to TrailCard for all 27 trails with fourByFourRequired=true. In TrailDetailModal, added prominent warning banner near the top for 4x4 trails ('שימו לב: הגישה למסלול זה דורשת רכב שטח (4x4 בלבד)'), and conditional vehicle staging callout for passenger car access (e.g. Birkat Tzfira, Ein Akev). Trails with fourByFourRequired=false or null are never falsely labeled.",
+      "verification": {
+        "fourByFourTrailsFlagged": 27,
+        "falsePositive4x4Badges": 0,
+        "modalBannerRendered": true,
+        "conditionalStagingCalloutRendered": true
+      }
+    },
+    {
+      "id": "FIX-04",
+      "name": "Safe Card Navigation Interception",
+      "targetFiles": [
+        "src/features/trails/TrailCard.tsx"
+      ],
+      "problem": "Clicking 'נווט' on a TrailCard directly launched Waze/Google Maps to start coordinates, which could navigate a passenger car past safe parking into remote 4x4-only terrain (e.g. Birkat Tzfira where cars must stop 1.5km earlier at the night campground).",
+      "solution": "Implemented safe navigation interception on TrailCard. For trails with vehicle access caveats (4x4 mandatory or conditional passenger car parking), clicking 'נווט' intercepts the navigation action and presents an accessible confirmation modal with clear parking instructions, caveat details, a 'ביטול' cancel action, and an 'הבנתי, המשך לניווט' confirmation action. Standard trails retain instant 1-click navigation.",
+      "verification": {
+        "caveatTrailsIntercepted": true,
+        "standardTrailsDirectNavigation": true,
+        "keyboardAccessibleEscape": true,
+        "clickPropagationStopped": true
+      }
+    }
+  ],
+
+  "dataIntegrityAudit": {
+    "totalTrails": 1783,
+    "uniqueIds": 1783,
+    "duplicateIds": 0,
+    "difficultyBreakdown": {
+      "קלה": 1216,
+      "בינונית": 503,
+      "מאתגרת": 60,
+      "otherOrUndefined": 4
+    },
+    "walkingTypeBreakdown": {
+      "מעגלי": 475,
+      "הלוך-חזור": 1104,
+      "missing": 204
+    },
+    "vehicleAccessBreakdown": {
+      "fourByFourMandatory": 27,
+      "conditionalOrPassengerStaging": 31,
+      "standardOrUnspecified": 1725
+    },
+    "coordinatesCoverage": {
+      "verified": 591,
+      "probable": 298,
+      "missing": 894
+    },
+    "sourceMarkdownFiles": 1783,
+    "sourceMarkdownUntouched": true
+  },
+
+  "testingSummary": {
+    "testRunner": "vitest",
+    "totalTestFiles": 8,
+    "passedTestFiles": 8,
+    "totalTests": 78,
+    "passedTests": 78,
+    "failedTests": 0,
+    "stage8SpecificTests": 23,
+    "regressionTestsPassed": 55,
+    "executionTimeMs": 1970
+  },
+
+  "productionBuildSummary": {
+    "status": "SUCCESS",
+    "command": "tsc && vite build",
+    "buildTimeSeconds": 6.96,
+    "artifacts": {
+      "html": "dist/index.html (1.34 kB, gzip: 0.76 kB)",
+      "css": "dist/assets/index-Ds9N0qFz.css (105.88 kB, gzip: 16.45 kB)",
+      "appJs": "dist/assets/index-Cc-bzYuT.js (246.57 kB, gzip: 69.60 kB)",
+      "maplibreJs": "dist/assets/maplibre-ChAaPfnC.js (1,055.24 kB, gzip: 285.08 kB)"
+    }
+  },
+
+  "securityAndProviderCompliance": {
+    "apiKeysRequired": 0,
+    "externalImageryServices": 0,
+    "cartoRuntimeDependency": false,
+    "mapboxTokenDependency": false,
+    "googleMapsApiDependency": false,
+    "activeMapProvider": "OpenStreetMap Standard (tile.openstreetmap.org)"
+  },
+
+  "betaReadinessStatus": "READY_FOR_PUBLIC_BETA"
+}

@@ -1,0 +1,348 @@
+{
+  "reviewDate": "2026-09-23T20:30:00.000Z",
+  "applicationVersion": "1.0.0-stage7",
+  "screensReviewed": [
+    "HomePage (Desktop Split View)",
+    "HomePage (Mobile Map-First View)",
+    "TrailCard Component",
+    "TrailPreviewCard Component",
+    "TrailDetailModal (All 4 Tabs)",
+    "FilterBar Component",
+    "Header Component",
+    "AdminPage"
+  ],
+  "viewportTests": [
+    { "viewport": "375x667", "device": "Mobile Compact (iPhone SE)", "status": "usable_with_observations" },
+    { "viewport": "390x844", "device": "Mobile Standard (iPhone 13/14)", "status": "good" },
+    { "viewport": "412x915", "device": "Mobile Modern (Pixel / Samsung Galaxy)", "status": "good" },
+    { "viewport": "768x1024", "device": "Tablet (iPad)", "status": "good" },
+    { "viewport": "1280x800", "device": "Desktop Compact (MacBook Air / Laptop)", "status": "good" },
+    { "viewport": "1440x900", "device": "Desktop Standard", "status": "good" },
+    { "viewport": "1920x1080", "device": "Desktop Wide (Full HD)", "status": "usable_with_observations" }
+  ],
+  "userJourneys": [
+    {
+      "step": "A. Landing on the application",
+      "understandsImmediately": "The user immediately recognizes this is a hiking map application for Israel. The map shows clustered markers and the sidebar displays trail cards.",
+      "unclear": "Why the list reports 1,783 trails while the map only displays 889 pins (no immediate explanation that 894 trails lack verified/probable coordinates). On mobile, the trail list is hidden behind a bottom button.",
+      "unnecessaryEffort": "Mobile users must discover and tap the bottom floating pill to see the trail list.",
+      "missingInfo": "No quick onboarding tooltip or headline explaining the coverage scope (1,783 trails, verified coordinates, keyless OSM map).",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "Users might assume the app only covers 889 trails if they only look at the map.",
+      "especiallyGood": "Instant loading, crisp Hebrew typography, and immediate responsiveness.",
+      "severity": "Low"
+    },
+    {
+      "step": "B. Understanding what TrailMap is",
+      "understandsImmediately": "Branding (Compass logo + 'TrailMap - מפת מסלולי הטיולים של ישראל') makes the purpose 100% self-evident.",
+      "unclear": "Whether this is an official governmental app, a commercial site, or an open-source community tool.",
+      "unnecessaryEffort": "None.",
+      "missingInfo": "A brief 1-line mission statement in the header or footer explaining that all content is independently curated and open-access.",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "None.",
+      "especiallyGood": "Clean, independent aesthetic without intrusive ads or corporate branding.",
+      "severity": "Observation"
+    },
+    {
+      "step": "C. Finding a relevant trail",
+      "understandsImmediately": "Users can immediately filter by region, difficulty, water, or popular categories, or search by name.",
+      "unclear": "Selecting 'קשה / מאתגרת' returns 0 results because the dropdown value ('קשה') mismatches the data attribute ('מאתגרת').",
+      "unnecessaryEffort": "Cannot filter by route type (circular vs linear) or duration.",
+      "missingInfo": "Route type filter (מעגלי / הלוך-חזור) and duration range filter.",
+      "redundantInfo": "Jerusalem sub-districts occupy 10 separate entries in the top 30 regions dropdown.",
+      "wrongInterpretationRisk": "Users looking for challenging trails will conclude TrailMap has zero hard hikes in the entire country.",
+      "especiallyGood": "Water quick toggle ('רחצה במים') and Near Me geolocation button.",
+      "severity": "High"
+    },
+    {
+      "step": "D. Comparing several trails",
+      "understandsImmediately": "Distance, duration, difficulty, and water indicators can be compared across cards in the list.",
+      "unclear": "Which trails are circular vs out-and-back cannot be compared without opening each trail modal.",
+      "unnecessaryEffort": "Clicking into multiple modals and switching to Tab 2 to check route type.",
+      "missingInfo": "Route type ('מעגלי' / 'הלוך-חזור') is completely missing from TrailCard.",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "Users may assume an 8km trail is circular when it is actually an 8km point-to-point hike requiring two cars.",
+      "especiallyGood": "Favorites heart button allows bookmarking and filtering to create a custom comparison list.",
+      "severity": "High"
+    },
+    {
+      "step": "E. Opening a trail",
+      "understandsImmediately": "Tapping 'פתח מסלול' on the card or clicking a map pin opens a modal with comprehensive information.",
+      "unclear": "Tabs are labeled 'סקירה ומסלול', 'מידע שימושי', 'הגעה וחניה', 'מקור הנתונים'—user must guess which tab holds parking or equipment.",
+      "unnecessaryEffort": "Must click through multiple tabs to assemble a full logistical picture.",
+      "missingInfo": "None.",
+      "redundantInfo": "Distance, duration, and difficulty are shown in the top grid AND repeated in the practical info tab table.",
+      "wrongInterpretationRisk": "None.",
+      "especiallyGood": "Full modal backdrop blur, Escape key support, and seamless focus management.",
+      "severity": "Low"
+    },
+    {
+      "step": "F. Understanding whether the trail is suitable",
+      "understandsImmediately": "Top metrics grid immediately clarifies distance, duration, difficulty, and water suitability.",
+      "unclear": "Whether a 4x4 vehicle is required is not visible in the top metrics or header; it is buried in Tab 3.",
+      "unnecessaryEffort": "Must navigate to Tab 3 to check if a 4x4 vehicle is necessary.",
+      "missingInfo": "No prominent 4x4 badge in the modal header or quick metrics bar.",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "A family in a sedan may review the trail, see 'בינונית' and 'מים', and decide to go without realizing a 4x4 is required to reach the start point.",
+      "especiallyGood": "Truthful representation of water: explicitly distinguishes 'רחצה אפשרית' from 'רחצה אסורה' and 'מים עונתיים'.",
+      "severity": "High"
+    },
+    {
+      "step": "G. Understanding access, parking, water, shade, difficulty, duration",
+      "understandsImmediately": "Water and duration are immediately clear. Detailed driving and parking descriptions in Tab 3 are exceptionally rich.",
+      "unclear": "Shade information is buried inside Tab 2 table, despite being a primary safety concern in Israeli summer.",
+      "unnecessaryEffort": "Switching between Tab 1, Tab 2, and Tab 3 to collect shade, parking, and route structure.",
+      "missingInfo": "Shade indicator in the top metrics grid.",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "None—unknowns are presented honestly as 'לא צוין במקור' rather than inventing false claims.",
+      "especiallyGood": "Nuanced access instructions: explicitly explains when sedans park in lot A while 4x4 can continue to lot B.",
+      "severity": "Medium"
+    },
+    {
+      "step": "H. Navigating to the trail",
+      "understandsImmediately": "Waze and Google Maps external action buttons are prominent and functional.",
+      "unclear": "Direct 'נווט' button on the TrailCard launches navigation directly to coordinate without alerting the user to read parking directions first.",
+      "unnecessaryEffort": "None.",
+      "missingInfo": "Parking coordinate vs trail coordinate differentiation.",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "Clicking 'נווט' on the card can navigate drivers straight into inaccessible wadi tracks rather than the designated parking lot.",
+      "especiallyGood": "Suppresses broken navigation links when coordinates are missing and displays clear warning.",
+      "severity": "High"
+    },
+    {
+      "step": "I. Returning to list/map and finding another trail",
+      "understandsImmediately": "Closing modal returns user to exact scroll position and map coordinates.",
+      "unclear": "None.",
+      "unnecessaryEffort": "None.",
+      "missingInfo": "None.",
+      "redundantInfo": "None.",
+      "wrongInterpretationRisk": "None.",
+      "especiallyGood": "Zero reload, zero map re-render, map state and active filters remain perfectly preserved.",
+      "severity": "Low"
+    }
+  ],
+  "homeScreenReview": {
+    "desktopImpression": "Clean, utilitarian, nature-themed split-screen discovery tool. Clear visual hierarchy with dark nature-900 header, white filter bar, 560px card sidebar, and full-bleed MapLibre map on left.",
+    "mobileImpression": "Map-first interface with floating action button. Very clean, but hides the rich 1,783-trail database until the user interacts with the bottom sheet toggle.",
+    "visualHierarchy": "Strong. Brand -> Search -> Filters -> List/Map -> Cards. The primary action (search / explore map) is evident within 3 seconds.",
+    "aboveTheFoldDensity": "Well balanced on desktop. On 1920x1080, the 560px sidebar is slightly narrow relative to the massive map expanse.",
+    "mapUtility": "The map is functionally active, responsive, and hardware-accelerated. Cluster numbers provide an immediate heatmap of trail density in Israel (Galilee, Judean Hills, Desert)."
+  },
+  "searchReview": {
+    "discoverability": "Top-center in Header on all screens; auto-focus and clear button provided.",
+    "feedback": "Instantaneous (<5ms). Result count badge in list header updates in real-time.",
+    "landmarkSearch": "Operational (verified with 'סנט קלייר', 'עין רוגל', 'מנזר שלווה').",
+    "exactQuery": "Exceptional. 'נחל חיק נחל אורן' immediately returns the exact trail.",
+    "partialQuery": "'שכווי' returns both Sechvi Pools trails.",
+    "niqqudHandling": "Robust. 'נַחַל עַמּוּד' normalizes and matches identically to 'נחל עמוד'.",
+    "naturalLanguageWeakness": {
+      "queryNearJerusalem": "'מסלול ליד ירושלים' returns 0 results because 'ליד' is treated as a required substring.",
+      "queryWith4x4": "'מסלול עם 4x4' returns 0 results because 'עם' is not in the text.",
+      "queryWithoutWater": "'מסלול ללא מים' returns trails WITH water because it matches 'מסלול' AND 'מים'.",
+      "substringOvermatch": "'ארמו' matches 199 trails because 4-letter fuzzy logic matches 'רמו' inside 'מכתש רמון'."
+    },
+    "zeroResultState": "Helpful message ('לא נמצאו מסלולים מתאימים. נסה לשנות את מילות החיפוש או לאפס מסננים')."
+  },
+  "filterReview": {
+    "visibleFilters": [
+      "Trails in this area (Viewport bounds toggle)",
+      "Region (Dropdown with counts)",
+      "Difficulty (Dropdown: קלה, בינונית, קשה / מאתגרת)",
+      "Water quick toggle (רחצה במים)",
+      "Shade quick toggle (מוצל)",
+      "9 Category tags (מים, תצפיות, פריחה, ירוק, מדברי, משפחות, עתיקות, אתגרי, מערות)",
+      "Near-me distance radius (5, 10, 25, 50, 100 km)"
+    ],
+    "criticalFilterBug": {
+      "issue": "Difficulty dropdown value 'קשה' matches 0 trails because the dataset records challenging trails as 'מאתגרת' (60 trails). Selecting 'קשה / מאתגרת' returns an empty result set.",
+      "severity": "High"
+    },
+    "missingFilterableAttributes": [
+      "Route Type (מעגלי / הלוך-חזור) - 1,579 trails have this attribute, but it cannot be filtered.",
+      "4x4 Requirement - 27 trails require 4x4, 29 have conditional access, but cannot be filtered.",
+      "Duration / Distance Range - No slider or bucket filter (<2 hours, full day, <5km, >10km)."
+    ],
+    "combinability": "Predictable AND logic. Reset button appears automatically when any filter is active."
+  },
+  "trailCardReview": {
+    "canAnswerShouldIOpen": "Partially. A user can judge region, distance, duration, difficulty, water presence, and map coordinate status. But they cannot know if the hike is circular, if it requires a 4x4, or if there is shade.",
+    "missingKeyMetrics": [
+      "Route Type ('מעגלי' vs 'הלוך-חזור')",
+      "4x4 Requirement badge ('רכב שטח 4X4')"
+    ],
+    "placeholderSaturation": "1,781 / 1,783 cards (99.9%) display generic gradient placeholders. While designed nicely, it creates visual monotony across large lists.",
+    "tapAffordance": "Entire card is clickable, plus dedicated 'פתח מסלול' button and 'נווט' button."
+  },
+  "trailDetailReview": {
+    "tabArchitecture": {
+      "overview": "Clear summary, extracted landmark tags, and structured walkthrough.",
+      "practical": "Key logistical table. However, it repeats distance/duration/difficulty from the top grid.",
+      "access": "Crucial driving, parking, public transit, and vehicle requirements.",
+      "source": "Transparent archival markdown record with extraction provenance."
+    },
+    "truthfulNegatives": "Honest representation: 'לא צוינה מגבלת רכב מיוחדת במקור' prevents false claims of standard car suitability.",
+    "buriedItems": [
+      "4x4 requirement is buried in Tab 3.",
+      "Walking type is buried in Tab 2.",
+      "Shade is buried in Tab 2."
+    ]
+  },
+  "navigationReview": {
+    "wazeIntegration": "Functional. Coordinates passed formatted properly.",
+    "googleMapsIntegration": "Functional external links without any Google API dependency.",
+    "coordinateConfidence": "Distinct visual badges ('מאומת', 'משוער', 'ללא מפה').",
+    "directNavHazard": "Card 'נווט' button launches navigation to trail coordinate, bypassing vital parking notes and 4x4 restrictions."
+  },
+  "mapReview": {
+    "engine": "MapLibre GL JS keyless with OpenStreetMap Standard tiles.",
+    "markerCount": "889 active trail markers (591 verified, 298 probable).",
+    "missingHandling": "894 unlocated trails strictly excluded from map GeoJSON—no fabricated coordinates.",
+    "clustering": "Hardware-accelerated circle clustering with expansion zoom on click.",
+    "statePreservation": "Map center and zoom survive opening and closing the detail modal."
+  },
+  "mobileReview": {
+    "viewports": ["375x667", "390x844", "412x915"],
+    "observations": [
+      "Header search placeholder (45 chars) overflows and truncates on 375px width.",
+      "FilterBar horizontal scroll lacks visual affordance (subtle gradient mask needed).",
+      "Touch targets on card buttons (36px) are slightly smaller than 44px recommended for mobile thumbs.",
+      "Bottom sheet (80vh) performs smoothly with native gesture feel."
+    ]
+  },
+  "desktopReview": {
+    "viewports": ["1280x800", "1440x900", "1920x1080"],
+    "observations": [
+      "On 1920x1080, the fixed 560px sidebar occupies only 29% of screen width, leaving vast empty map space.",
+      "Two-column grid inside 560px leaves cards at ~250px width, causing tight badge wrapping."
+    ]
+  },
+  "contentUXReview": {
+    "conciseness": "Factual summaries are short (average 100-140 characters), direct, and filler-free.",
+    "tone": "Neutral, objective, and navigational.",
+    "truthfulness": "Zero hallucinated claims or fabricated narrative prose.",
+    "clarity": "High. Sentences follow natural Hebrew grammar."
+  },
+  "informationArchitectureReview": {
+    "12HikerQuestions": [
+      { "question": "1. Where is it?", "status": "Immediately visible (Card & Modal header)" },
+      { "question": "2. How long is it?", "status": "Immediately visible (Card & Modal)" },
+      { "question": "3. How difficult is it?", "status": "Immediately visible (Card & Modal)" },
+      { "question": "4. How do I get there?", "status": "Buried in Tab 3 (Access & Parking)" },
+      { "question": "5. Where do I park?", "status": "Buried in Tab 3 (Access & Parking)" },
+      { "question": "6. Do I need a 4x4?", "status": "Buried in Tab 3 (Access & Parking)" },
+      { "question": "7. Is there water?", "status": "Immediately visible (Card badge & Modal grid)" },
+      { "question": "8. Is the water seasonal?", "status": "Immediately visible (Card badge & Modal note)" },
+      { "question": "9. Can I swim?", "status": "One click away (Modal top grid)" },
+      { "question": "10. Is there shade?", "status": "Buried in Tab 2 (Practical Info)" },
+      { "question": "11. Is there an entrance fee?", "status": "Buried in Tab 2 (Practical Info)" },
+      { "question": "12. How do I navigate there?", "status": "Immediately visible (Card & Modal buttons)" }
+    ]
+  },
+  "accessibilityReview": {
+    "keyboardNavigation": "Fully operational with Escape modal close, focus trap, and focus restoration.",
+    "colorContrast": "All core text and badges exceed WCAG AA (Header input text-white on nature-800 achieves >10:1).",
+    "rtlCompliance": "dir='rtl' declared on html; right-aligned layout and reversed direction arrows.",
+    "screenReaderSemantics": "role='dialog', aria-modal='true', aria-labelledby='modal-trail-title' implemented."
+  },
+  "frictionMap": [
+    {
+      "area": "Filters",
+      "userProblem": "Selecting 'קשה / מאתגרת' in difficulty filter returns 0 trails.",
+      "userImpact": "Users looking for difficult hikes are falsely told there are none in the entire database.",
+      "severity": "High",
+      "evidence": "FilterBar.tsx sets value='קשה', but data stores difficulty='מאתגרת' (60 trails).",
+      "suggestedDirection": "Update difficulty filter check in search-utils.ts or option value to match 'מאתגרת'."
+    },
+    {
+      "area": "Trail Cards",
+      "userProblem": "Route type ('מעגלי' vs 'הלוך-חזור') is not displayed on TrailCard.",
+      "userImpact": "Users must click into every modal to find out if a hike is circular or requires two cars.",
+      "severity": "High",
+      "evidence": "1,579 trails have route type defined, but TrailCard.tsx only displays distance, duration, and difficulty.",
+      "suggestedDirection": "Add route type icon badge to the quick metrics bar of TrailCard.tsx."
+    },
+    {
+      "area": "Trail Cards & Safety",
+      "userProblem": "No 4x4 warning on TrailCard or Modal Header.",
+      "userImpact": "Hikers in standard cars can drive to remote trailheads and get stranded or turned away.",
+      "severity": "High",
+      "evidence": "27 trails require 4x4, but TrailCard displays zero vehicle indication.",
+      "suggestedDirection": "Add an amber/red '4x4 בלבד' badge to TrailCard and a warning callout in the modal top metrics."
+    },
+    {
+      "area": "Navigation",
+      "userProblem": "Direct 'נווט' button on TrailCard bypasses vital parking and access directions.",
+      "userImpact": "Navigates drivers to remote trail coordinates rather than the designated parking lot or passenger car lot.",
+      "severity": "High",
+      "evidence": "Birkat Tzfira coordinates point to wadi bed, while passenger cars must park at Tzfira Night Camp 1.5km away.",
+      "suggestedDirection": "For trails with specific parking or 4x4 restrictions, clicking 'נווט' on the card should open the modal's Access tab."
+    },
+    {
+      "area": "Search",
+      "userProblem": "Conversational / natural language queries fail ('מסלול ליד ירושלים', 'מסלול עם 4x4').",
+      "userImpact": "Users typing common natural phrases receive empty or misleading results.",
+      "severity": "Medium",
+      "evidence": "Search requires every word to match verbatim. Prepositions ('ליד', 'עם', 'ללא') cause total failure.",
+      "suggestedDirection": "Strip common Hebrew stop-words ('מסלול', 'ליד', 'עם', 'של') before matching."
+    },
+    {
+      "area": "Visual Design",
+      "userProblem": "99.9% of trails (1,781/1,783) display identical gradient placeholder banners.",
+      "userImpact": "Browsing large lists feels visually monotonous and does not convey the real scenery or terrain.",
+      "severity": "Medium",
+      "evidence": "withImages count is 2 across the entire 1,783-trail dataset.",
+      "suggestedDirection": "Explore open/community photo integration, elevation sparklines, or terrain maps in card headers."
+    },
+    {
+      "area": "Filters",
+      "userProblem": "Region dropdown is cluttered by 10 Jerusalem micro-neighborhoods, cutting off other major regions.",
+      "userImpact": "Users cannot select major regions like Samaria, Lakhish, or Dead Sea from the dropdown.",
+      "severity": "Low",
+      "evidence": "availableRegions.slice(0, 30) excludes regions ranked 31-91.",
+      "suggestedDirection": "Consolidate 91 region strings into 12-15 macro-regions with hierarchical sub-regions."
+    },
+    {
+      "area": "Mobile Header",
+      "userProblem": "Search input placeholder (45 characters) is clipped on 375px screens.",
+      "userImpact": "Looks unpolished on compact phones like iPhone SE.",
+      "severity": "Low",
+      "evidence": "Input width on 375px viewport is ~190px.",
+      "suggestedDirection": "Shorten placeholder on mobile to 'חיפוש מסלול, אזור, מים...'."
+    }
+  ],
+  "betaReadinessFindings": {
+    "isReadyForInternalTesting": true,
+    "isReadyForPublicBeta": false,
+    "blockersForPublicBeta": [
+      "Fix difficulty filter dropdown mismatch ('קשה' vs 'מאתגרת')",
+      "Add 4x4 vehicle badge to TrailCard and modal header to prevent driver strandings",
+      "Add Route Type badge ('מעגלי' / 'הלוך-חזור') to TrailCard",
+      "Intercept direct navigation on cards for trails with critical parking staging instructions"
+    ]
+  },
+  "prioritizedRecommendations": {
+    "A_fixBeforePublicBeta": [
+      "Fix Difficulty dropdown value in FilterBar to match 'מאתגרת' (restores all 60 challenging trails).",
+      "Add 4x4 warning badge to TrailCard and Modal header for the 27 mandatory 4x4 trails.",
+      "Add Route Type badge ('מעגלי' vs 'הלוך-חזור') to TrailCard quick metrics.",
+      "Intercept card 'נווט' button for trails with parking caveats, directing users to review parking instructions."
+    ],
+    "B_fixSoonAfterBeta": [
+      "Implement basic Hebrew stop-word removal in search-utils.ts (strip 'מסלול', 'ליד', 'עם', 'של').",
+      "Consolidate region strings into 12-15 macro-regions in the FilterBar dropdown.",
+      "Add Route Type (מעגלי / הלוך-חזור) and 4x4 quick-toggles to FilterBar.",
+      "Add Shade indicator ('מוצל' / 'חשוף') to the TrailDetailModal top metrics grid."
+    ],
+    "C_niceToHave": [
+      "Incorporate open-source trail photographs or elevation profile sparklines in place of generic gradients.",
+      "Responsive sidebar on wide desktop (allow expanding list width beyond 560px on 1920x1080).",
+      "Add distance/duration range slider or bucket filter in FilterBar."
+    ],
+    "D_noActionRequired": [
+      "MapLibre GL + OpenStreetMap keyless architecture (fast, compliant, zero API keys).",
+      "Coordinate confidence taxonomy (verified vs probable vs missing is well communicated).",
+      "Water tri-state and seasonal water logic (completely truthful and safe).",
+      "Client-side search execution speed (4.99ms average across 1,783 trails)."
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-09-23T12:51:53.969Z",
+  "totalAudited": 1783,
+  "totalFlaggedTrails": 0,
+  "totalTrailsRequiringRegeneration": 0,
+  "metrics": {
+    "averageTokenJaccard": 0.021,
+    "maxTokenJaccard": 0.061,
+    "phraseOverlap6PlusWords": 0,
+    "sentenceSimilarityAboveThreshold": 0,
+    "genericFillerSentenceCount": 0,
+    "unsupportedClaimsCount": 0
+  },
+  "summaryByIssueType": {},
+  "flaggedItems": []
+}

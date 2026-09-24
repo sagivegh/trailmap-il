@@ -1,0 +1,229 @@
+{
+  "generatedAt": "2026-09-23T18:25:00.000Z",
+  "auditStage": "Stage-5 Full Product-Level QA",
+  "overallStatus": "PASSED_WITH_OBSERVATIONS",
+  "readyForNextStage": true,
+  "summary": "Full product-level QA of TrailMap application against the complete 1,783-trail dataset. All core architectural constraints (zero API keys, MapLibre + OpenStreetMap, strict coordinate preservation, independent content integrity) are fully verified and operational.",
+  
+  "criticalIssues": [],
+  
+  "highPriorityIssues": [],
+  
+  "mediumIssues": [
+    {
+      "id": "MED-01",
+      "severity": "medium",
+      "component": "src/features/search/search-utils.ts",
+      "title": "Search function does not index trail landmarks array",
+      "reproductionSteps": "1. Enter a search query for a specific landmark present in trail.sourceFacts.landmarks (e.g. 'סנט קלייר' or specific local points of interest).\n2. View search results.\n3. Observe that the trail is not returned unless that landmark term happened to appear verbatim in the title or summary.",
+      "expectedBehavior": "Trails should be discoverable by their extracted landmarks (sourceFacts.landmarks).",
+      "actualBehavior": "Search utility only matches title, subtitle, description, region, startPoint, endPoint, gpsName, and categories. Trails matching solely on landmark are omitted.",
+      "recommendedFix": "In search-utils.ts line 38, add: const matchLandmark = trail.sourceFacts?.landmarks?.some(lm => fuzzyHebrewMatch(lm, q)); and include matchLandmark in the return condition."
+    }
+  ],
+  
+  "lowIssues": [
+    {
+      "id": "LOW-01",
+      "severity": "low",
+      "component": "src/components/Header.tsx",
+      "title": "Search input text color has low contrast when unfocused",
+      "reproductionSteps": "1. Type text into the search bar in the Header.\n2. Click anywhere outside the input to blur focus.\n3. Observe the input styling.",
+      "expectedBehavior": "Search query text should maintain high contrast and legibility against the header background at all times.",
+      "actualBehavior": "Input has 'text-stone-900' (dark) on 'bg-nature-800/80' (dark green) when not focused, reducing readability until re-focused.",
+      "recommendedFix": "Set unfocused text color to 'text-white' or keep input background permanently light (e.g. 'bg-white/95 text-stone-900')."
+    },
+    {
+      "id": "LOW-02",
+      "severity": "low",
+      "component": "src/features/trails/TrailDetailModal.tsx",
+      "title": "Modal lacks keyboard Escape close handler and focus trapping",
+      "reproductionSteps": "1. Open any trail detail modal.\n2. Press the Escape key on keyboard.\n3. Press Tab repeatedly.",
+      "expectedBehavior": "Pressing Escape closes the modal. Focus should be trapped inside the modal container and not leak to background page elements.",
+      "actualBehavior": "Modal does not listen for Escape keydown event; focus cycles behind the backdrop.",
+      "recommendedFix": "Add useEffect keydown listener for 'Escape' key calling onClose(), and add role='dialog' aria-modal='true'."
+    },
+    {
+      "id": "LOW-03",
+      "severity": "low",
+      "component": "src/features/filters/FilterBar.tsx",
+      "title": "FilterBar lacks dedicated quick-toggles for Route Type and 4x4 Requirement",
+      "reproductionSteps": "1. Inspect FilterBar controls.\n2. Note available controls: Viewport, Region, Difficulty, Water, Shade, Categories.\n3. Attempt to filter exclusively for circular trails (מעגלי) or 4x4 trails.",
+      "expectedBehavior": "Users should have intuitive filter toggles for route type and vehicle access in FilterBar.",
+      "actualBehavior": "Route type and 4x4 requirements exist in data and modal, but are not exposed as filter selectors in FilterBar.",
+      "recommendedFix": "Add a Route Type dropdown (מעגלי / הלוך-חזור) and a 4x4 toggle to FilterBar in the next UI iteration."
+    },
+    {
+      "id": "LOW-04",
+      "severity": "low",
+      "component": "vite.config.ts",
+      "title": "Production bundle chunk size exceeds 500 kB due to single vendor chunk",
+      "reproductionSteps": "1. Run npm run build.\n2. Observe Vite warning: dist/assets/index-j5bQT0pk.js is 1,299 kB (355 kB gzip).",
+      "expectedBehavior": "Large third-party libraries (maplibre-gl) should be split into dedicated vendor chunks.",
+      "actualBehavior": "Application code and MapLibre GL JS are bundled into a single chunk.",
+      "recommendedFix": "Configure build.rollupOptions.output.manualChunks to split 'maplibre-gl' into its own chunk."
+    }
+  ],
+
+  "mapProviderFindings": {
+    "zeroApiKeysConfirmed": true,
+    "cartoEliminated": true,
+    "mapboxEliminated": true,
+    "googleMapsApiEliminated": true,
+    "activeProvider": "OpenStreetMap Standard (tile.openstreetmap.org)",
+    "activeEngine": "MapLibre GL JS",
+    "tokenSearchAudit": {
+      "CARTO": "0 runtime occurrences (found only in test assertions verifying absence)",
+      "carto": "0 runtime occurrences (found only in test assertions verifying absence)",
+      "Mapbox": "0 runtime occurrences (found only in test assertions and map.ts comment verifying absence)",
+      "mapbox": "0 runtime occurrences (package-lock.json contains @mapbox/* sub-dependencies used internally by MapLibre GL for geometry/SDF, no API keys or tokens)",
+      "Google Maps API": "0 runtime occurrences (found only in README and map.ts comments confirming absence)",
+      "GOOGLE_MAPS_API_KEY": "0 occurrences in code or environment",
+      "MAPBOX_TOKEN": "0 occurrences in code or environment",
+      "CARTO_API_KEY": "0 occurrences in code or environment",
+      "hardcodedTokens": "0 found"
+    },
+    "markerRendering": {
+      "totalMarkersOnMap": 889,
+      "verifiedMarkers": 591,
+      "probableMarkers": 298,
+      "missingCoordinatesExcludedFromMap": 894,
+      "fabricatedCoordinatesDetected": 0,
+      "clusteringEnabled": true,
+      "clusterMaxZoom": 13,
+      "clusterRadius": 45
+    },
+    "runtimeGeocodingRequests": 0,
+    "mapStateSurvivesModalToggle": true
+  },
+
+  "trailCardFindings": {
+    "desktopTested": true,
+    "mobileTested": true,
+    "titleReadability": "Excellent (line-clamp-1 with font-bold text-stone-900)",
+    "imageFallback": "Themed dynamic gradient placeholder (desert/nature/stone) with thematic badges",
+    "waterBadgeIntegrity": "Appears strictly when hasWater === true",
+    "seasonalWaterDistinction": "Visually displays 'מים עונתיים' vs 'מים'",
+    "missingOptionalDataHandling": "Gracefully collapses without broken borders or empty gaps",
+    "edgeCasesTested": [
+      "Rich metadata (e.g. Nahal Heik, Nahal Amud, Nahal Tze'elim)",
+      "Sparse metadata (trails with distance/duration only)",
+      "Water trails with swimming allowed (Ein Alon, Sechvi Pools)",
+      "Water trails without swimming (Nov Meadow marshland)",
+      "Dry trails (hasWater=false, e.g. Abu Tor, desert trails)",
+      "4x4 required trails (e.g. Bor HaAmudim, Nahal Barak)",
+      "Conditional 4x4 access (e.g. Birkat Tzfira, Ein Akev)",
+      "Trails without images (thematic gradient placeholders verified)",
+      "Trails without coordinates (badge 'ללא מפה' shown, excluded from map)"
+    ]
+  },
+
+  "trailDetailModalFindings": {
+    "tabsAudited": ["overview", "practical", "access", "source"],
+    "unknownInfoNeutrality": "Preserved. Unknown fields display neutral text (e.g. 'לא צוין במקור')",
+    "standardVehicleClaimAudit": {
+      "inferredPositiveClaimFound": false,
+      "displaysPrivateVehicleOnlyWhenSupported": true,
+      "fallbackWhenUnknown": "לא צוינה מגבלת רכב מיוחדת במקור"
+    },
+    "archivalSourceView": "Loads raw markdown archival record on demand only when Source tab is activated"
+  },
+
+  "navigationFindings": {
+    "wazeLinksOperational": true,
+    "googleMapsLinksOperational": true,
+    "externalOnly": true,
+    "noGoogleMapsApiLoaded": true,
+    "missingCoordinatesHandling": "Suppresses navigation buttons, displays 'קואורדינטות טרם הוזנו למסלול זה'",
+    "vehicleWarningsVisibleBeforeNavigation": true
+  },
+
+  "searchFilterFindings": {
+    "queriesTested": [
+      "Exact title (נחל חיק נחל אורן)",
+      "Partial title (שכווי)",
+      "Hebrew with Niqqud (נַחַל עַמּוּד)",
+      "Region search (מדבר יהודה, גליל עליון)",
+      "Empty query",
+      "No-results query",
+      "Filename exposure (.md query returned 0 results)"
+    ],
+    "averageSearchLatencyMs": 4.99,
+    "filterCombinations": {
+      "waterOnly": {
+        "activeCount": 984,
+        "treatsUnknownAsTrue": false
+      },
+      "shadeOnly": {
+        "activeCount": 512,
+        "treatsUnknownAsTrue": false
+      },
+      "waterTrueAndSeasonalTrue": 116,
+      "waterTrueAndSwimmingFalse": 102,
+      "fourByFourRequired": {
+        "true": 27,
+        "false": 29,
+        "null": 1727
+      }
+    }
+  },
+
+  "dataIntegrityFindings": {
+    "totalTrails": 1783,
+    "uniqueIds": 1783,
+    "duplicateIds": 0,
+    "duplicateTitles": 0,
+    "coordinateStatus": {
+      "verified": 591,
+      "probable": 298,
+      "missing": 894
+    },
+    "coordinatesMissingFlag": {
+      "true": 894,
+      "false": 889
+    },
+    "coordinateIntegrity": {
+      "nanCoordinates": 0,
+      "outOfBoundsCoordinates": 0,
+      "malformedCoordinates": 0
+    },
+    "sourceProvenanceCoverage": {
+      "hasSourceFile": 1783,
+      "hasProvenanceObject": 1783,
+      "hasSourceFacts": 1783
+    }
+  },
+
+  "responsiveFindings": {
+    "desktopWide": "Verified - Split layout with 560px sidebar and MapView",
+    "desktopStandard": "Verified - 520px sidebar, single-column trail cards",
+    "tablet": "Verified - 480px sidebar, responsive metrics grid",
+    "mobile": "Verified - Map-first with collapsible floating bottom sheet (80vh) and header toggle",
+    "horizontalOverflow": "Zero horizontal overflow (overflow-x-hidden on body, flex overflow containment)",
+    "rtlLayout": "Proper dir='rtl' with right-aligned Hebrew typography and icons"
+  },
+
+  "accessibilityFindings": {
+    "rtlAttributePresent": true,
+    "languageAttributePresent": true,
+    "semanticHeadings": true,
+    "imageAltText": true,
+    "buttonAriaTitles": true,
+    "observations": [
+      "Header search input text color should be text-white when blurred against dark background",
+      "TrailDetailModal should add Escape keydown listener and focus trapping"
+    ]
+  },
+
+  "performanceFindings": {
+    "initialLoad": "Fast, static JSON fetch (~1.2MB gzipped to ~300KB)",
+    "searchBenchmark": "4.99ms per full fuzzy search across all 1,783 items",
+    "mapClustering": "Hardware accelerated via MapLibre GL WebGL layers",
+    "pagination": "Virtual 24-item pagination in TrailList prevents DOM clutter",
+    "redundantNetworkRequests": 0
+  },
+
+  "testsPassed": 42,
+  "testsTotal": 42,
+  "buildStatus": "SUCCESS"
+}

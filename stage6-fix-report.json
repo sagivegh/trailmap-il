@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-09-23T18:27:00.000Z",
+  "auditStage": "Stage-6 Quality Fix Pass",
+  "status": "COMPLETED",
+  
+  "fixesImplemented": [
+    {
+      "id": "FIX-01",
+      "name": "Landmark Search Matching",
+      "targetFile": "src/features/search/search-utils.ts",
+      "description": "Included trail.sourceFacts.landmarks in the fuzzy text search filter so trails with matching points of interest (e.g. 'סנט קלייר') are returned even if the landmark does not appear in the title or description. Preserves Hebrew text normalization and fuzzy matching. Internal source filenames remain strictly excluded."
+    },
+    {
+      "id": "FIX-02",
+      "name": "Modal Keyboard Accessibility & Focus Trap",
+      "targetFile": "src/features/trails/TrailDetailModal.tsx",
+      "description": "Added role='dialog', aria-modal='true', and aria-labelledby='modal-trail-title'. Implemented Escape keydown listener to close the modal, cyclical keyboard focus trap for Tab and Shift+Tab, and focus preservation/restoration of document.activeElement on unmount. Mouse and backdrop-click interactions preserved."
+    },
+    {
+      "id": "FIX-03",
+      "name": "Search Input Contrast",
+      "targetFile": "src/components/Header.tsx",
+      "description": "Updated Header search input to use text-white on dark nature-800 background when unfocused (WCAG AAA contrast), transitioning to focus:text-stone-900 on focus:bg-white. Adjusted placeholder to placeholder-stone-300 with focus:placeholder-stone-400 for clear readability in both states."
+    },
+    {
+      "id": "FIX-04",
+      "name": "MapLibre Vendor Bundle Chunking",
+      "targetFile": "vite.config.ts",
+      "description": "Configured build.rollupOptions.output.manualChunks to split 'maplibre-gl' into its own dedicated vendor chunk ('maplibre'). Reduces the main application JavaScript bundle from 1,299 kB to 239 kB (-81.6%). MapLibre behavior and OSM tile provider unchanged."
+    }
+  ],
+
+  "filesChanged": [
+    "src/features/search/search-utils.ts",
+    "src/features/trails/TrailDetailModal.tsx",
+    "src/components/Header.tsx",
+    "vite.config.ts"
+  ],
+
+  "testsAdded": [
+    {
+      "testFile": "tests/stage6-fixes.test.ts",
+      "testsCount": 13,
+      "suites": [
+        "1. Landmark Search in search-utils.ts (mock landmark, real trail landmark matching 'סנט קלייר', negative terms, .md exclusion, title/region regression checks)",
+        "2. Modal Keyboard Accessibility in TrailDetailModal.tsx (dialog attributes, Escape key listener, focus trap cycling, focus restoration)",
+        "3. Search Input Contrast in Header.tsx (contrast classes for focused and unfocused states, placeholder legibility)",
+        "4. MapLibre Bundle Chunking in vite.config.ts (manualChunks config, separate maplibre chunk existence, app chunk < 500kB)"
+      ]
+    }
+  ],
+
+  "testResults": {
+    "totalTestFiles": 7,
+    "passedTestFiles": 7,
+    "totalTests": 55,
+    "passedTests": 55,
+    "failedTests": 0,
+    "durationMs": 1870
+  },
+
+  "buildResult": {
+    "status": "SUCCESS",
+    "compiler": "tsc && vite build",
+    "durationSeconds": 8.13
+  },
+
+  "bundleSizeBeforeAfter": {
+    "before": {
+      "mainAppJs": "1,299.34 kB (gzip: 354.95 kB)",
+      "css": "104.91 kB (gzip: 16.32 kB)",
+      "html": "1.26 kB (gzip: 0.73 kB)",
+      "totalChunks": 1
+    },
+    "after": {
+      "mainAppJs": "239.43 kB (gzip: 68.21 kB)",
+      "maplibreVendorJs": "1,055.24 kB (gzip: 285.08 kB)",
+      "css": "105.42 kB (gzip: 16.37 kB)",
+      "html": "1.34 kB (gzip: 0.76 kB)",
+      "appBundleReduction": "-81.6% (from 1,299.34 kB to 239.43 kB)"
+    }
+  },
+
+  "dataIntegrityVerification": {
+    "totalTrails": 1783,
+    "uniqueIds": 1783,
+    "duplicateIds": 0,
+    "coordinateBreakdown": {
+      "verified": 591,
+      "probable": 298,
+      "missing": 894
+    },
+    "coordinatesMissingFlag": {
+      "true": 894,
+      "false": 889
+    },
+    "sourceMarkdownFiles": 1783,
+    "sourceMarkdownUntouched": true
+  },
+
+  "mapProviderVerification": {
+    "zeroApiKeys": true,
+    "cartoRuntimeDependency": false,
+    "googleMapsApiDependency": false,
+    "mapboxTokenDependency": false,
+    "activeProvider": "OpenStreetMap Standard (tile.openstreetmap.org)",
+    "mapEngine": "MapLibre GL JS"
+  },
+
+  "observations": [
+    "FilterBar route-type (מעגלי / הלוך-חזור) and 4x4 quick toggles remain available in data and modal, left untouched in FilterBar for future product milestone.",
+    "Application chunk is now lightweight (239 kB) and loads rapidly on initial mobile access."
+  ]
+}
