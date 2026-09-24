@@ -53,7 +53,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigateToAdmin }) => {
   // Load trails on mount
   useEffect(() => {
     setLoading(true);
-    fetch('/data/trails.json')
+    const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+    fetch(`${baseUrl}data/trails.json`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to load trails database');
         return res.json();

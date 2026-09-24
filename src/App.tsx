@@ -3,30 +3,42 @@ import { HomePage } from './pages/HomePage';
 import { AdminPage } from './pages/AdminPage';
 
 export function App() {
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+
+  const isAdminPath = () => {
+    return window.location.pathname.includes('/admin') || window.location.hash.includes('admin');
+  };
+
   const [currentPage, setCurrentPage] = useState<'home' | 'admin'>(() => {
-    return window.location.pathname.startsWith('/admin') ? 'admin' : 'home';
+    return isAdminPath() ? 'admin' : 'home';
   });
 
-  // Listen to popstate (browser back/forward)
+  // Listen to popstate (browser back/forward) and hashchange
   useEffect(() => {
-    const handlePopState = () => {
-      if (window.location.pathname.startsWith('/admin')) {
+    const handleNavigation = () => {
+      if (isAdminPath()) {
         setCurrentPage('admin');
       } else {
         setCurrentPage('home');
       }
     };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleNavigation);
+    window.addEventListener('hashchange', handleNavigation);
+    return () => {
+      window.removeEventListener('popstate', handleNavigation);
+      window.removeEventListener('hashchange', handleNavigation);
+    };
   }, []);
 
   const navigateToAdmin = () => {
-    window.history.pushState({}, '', '/admin/data');
+    window.history.pushState({}, '', `${baseUrl}admin`);
     setCurrentPage('admin');
   };
 
   const navigateToHome = () => {
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, '', baseUrl);
     setCurrentPage('home');
   };
 

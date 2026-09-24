@@ -109,7 +109,8 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
   useEffect(() => {
     if (activeTab === 'source' && !rawContent) {
       setLoadingRaw(true);
-      fetch(`/data/raw/${trail.id}.md`)
+      const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+      fetch(`${baseUrl}data/raw/${trail.id}.md`)
         .then(res => {
           if (!res.ok) throw new Error('File not found');
           return res.text();

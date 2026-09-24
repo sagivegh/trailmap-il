@@ -52,11 +52,12 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToApp }) => {
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
+    const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
     Promise.all([
-      fetch('/data/report.json').then(r => r.json()).catch(() => null),
-      fetch('/data/coordinate-audit.json').then(r => r.json()).catch(() => []),
-      fetch('/data/geocoding-review.json').then(r => r.json()).catch(() => []),
-      fetch('/data/coordinate-coverage-report.json').then(r => r.json()).catch(() => null)
+      fetch(`${baseUrl}data/report.json`).then(r => r.json()).catch(() => null),
+      fetch(`${baseUrl}data/coordinate-audit.json`).then(r => r.json()).catch(() => []),
+      fetch(`${baseUrl}data/geocoding-review.json`).then(r => r.json()).catch(() => []),
+      fetch(`${baseUrl}data/coordinate-coverage-report.json`).then(r => r.json()).catch(() => null)
     ])
       .then(([repData, auditData, reviewData, coverageData]) => {
         setReport(repData);
